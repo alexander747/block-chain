@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev-test": "nodemon dev-test",
-    "dev": "nodemon ./app"
+    "dev": "nodemon ./app",
+    "start": "set HTTP_PORT=3001 && set P2P_PORT=3003 && peers=ws://localhost:5001 && node ./app",
+    "eder": "set HTTP_PORT=3003 && set P2P_PORT=3005 && peers=ws://localhost:5001 && node ./app"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.4",
+    "nodemon": "^1.18.11",
     "ws": "^3.3.2"
   },
   "dependencies": {

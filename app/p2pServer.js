@@ -7,7 +7,6 @@ class P2pServer {
   constructor(blockchain) {
     this.blockchain = blockchain;
     this.sockets = [];
-    console.log("constructor");
   }
 
   listen() {
@@ -19,16 +18,34 @@ class P2pServer {
 
   connectToPeers() {
     peers.forEach((peer) => {
-      console.log("eder");
       const sokect = new webSocket(peer);
       sokect.on("open", () => this.connectSocket(sokect));
     });
   }
 
   connectSocket(socket) {
-    console.log("entro");
     this.sockets.push(socket);
-    console.log(`Socket connected`);
+    console.log(`[+] Socket connected`);
+    this.messageHandler(socket);
+    this.sendChain(socket);
+  }
+
+  messageHandler(socket) {
+    socket.on("message", (message) => {
+      const data = JSON.parse(message);
+      this.blockchain.replaceChain(data);
+      console.log(data);
+    });
+  }
+
+  sendChain(socket) {
+    socket.send(JSON.stringify(this.blockchain.chain));
+  }
+
+  syncChains() {
+    this.sockets.forEach((socket) => {
+      this.sendChain(socket);
+    });
   }
 }
 
