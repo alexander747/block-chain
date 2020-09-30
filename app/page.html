@@ -104,73 +104,63 @@
     window.onload = function () {};
     var data = [
       {
-        x: ["10", "12", "13", "14", "15", "16"],
-        y: [0, 200, 400, 600, 800, 1000],
+        x: [0, 0, 0, 0, 0, 0],
+        y: [0, 0, 0, 0, 0, 0],
         type: "scatter",
       },
     ];
+    var xv = [0, 0, 0, 0, 0, 0];
+    var yv = [0, 0, 0, 0, 0, 0];
+
+    var tiempoInicial = 16;
 
     (function () {
       Plotly.newPlot("myDiv", data);
       setInterval(() => {
-        console.log("vaciando");
-        vaciar();
-        iniciar();
-      }, 3000);
-
-      setInterval(() => {
         llenar();
         iniciar();
-        console.log("llenando");
-      }, 4000);
+      }, 2000);
     })();
 
-    function vaciar() {
-      data = [
-        {
-          x: [],
-          y: [],
-          type: "scatter",
-        },
-      ];
-    }
     async function llenar() {
       var dataApi = await fetch("blocks");
       var dataApi = await dataApi.json();
-      console.log(dataApi);
       var ultimaPosicion = dataApi.length - 1;
-      console.log("el ultmo data es " + ultimaPosicion);
 
-      console.log(dataApi[ultimaPosicion].data.frecuencia);
-      console.log(dataApi[ultimaPosicion].data.tiempo);
-      let x = dataApi[ultimaPosicion].data.frecuencia;
-      let y = dataApi[ultimaPosicion].data.tiempo;
+      let y1 = dataApi[ultimaPosicion].data.frecuencia;
+      let x1 = dataApi[ultimaPosicion].data.tiempo;
       if (y == undefined && x == undefined) {
-        y = 0;
-        x = 0;
+        x1 = 0;
+        y1 = 0;
       }
+
+      // let random = numRandom();
+      // let tiempoInicial = tiempoIncremental();
+
+      // xv.splice(0, 1);
+      // yv.splice(0, 1);
+      // xv.push(tiempoInicial);
+      // yv.push(random);
+
+      xv.splice(0, 1);
+      yv.splice(0, 1);
+      xv.push(x1);
+      yv.push(y1);
 
       data = [
         {
-          x: ["10", "12", "13", "14", "15", "16"],
-          y: [0, 200, 400, 600, 800, 1000],
+          x: xv,
+          y: yv,
           type: "scatter",
         },
       ];
     }
 
-    // async function getData() {
-    //   var dataApi = await fetch("blocks");
-    //   var dataApi = await dataApi.json();
-    //   console.log(dataApi);
-    //   var ultimaPosicion = dataApi.length - 1;
-    //   console.log("el ultmo data es " + ultimaPosicion);
-
-    //   console.log(dataApi[ultimaPosicion].data.frecuencia);
-    //   console.log(dataApi[ultimaPosicion].data.tiempo);
-    //   let x = dataApi[ultimaPosicion].data.frecuencia;
-    //   let y = dataApi[ultimaPosicion].data.tiempo;
-
+    // function numRandom() {
+    //   return (random = Math.floor(Math.random() * (1000 - 0)) + 0);
+    // }
+    // function tiempoIncremental() {
+    //   return (tiempoInicial += 1);
     // }
 
     function iniciar() {
