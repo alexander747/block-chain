@@ -17,6 +17,12 @@ const p2pServer = new P2pServer(bc);
 
 app.use(bodyParser.json());
 
+app.set("view engine", "pug");
+
+app.get("/grafica", (req, res) => {
+  res.sendFile("page.html", { root: __dirname });
+});
+
 app.get("/blocks", (req, res) => {
   res.json(bc.chain);
 });
